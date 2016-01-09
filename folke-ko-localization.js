@@ -1,5 +1,5 @@
 define(["require", "exports", "res/default", "knockout"], function (require, exports, default_1, ko) {
-    exports.text = default_1["default"];
+    exports.text = default_1.default;
     exports.keys = {};
     for (var key in exports.text) {
         var mod = exports.text[key];
