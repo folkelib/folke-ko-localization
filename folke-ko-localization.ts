@@ -4,15 +4,19 @@ import * as ko from "knockout";
 export var text = defaultLanguage;
 export var keys:{[key:string]:string} = {};
 
-for (var key in text) {
-    var mod = text[key];
-    for (var sub in mod) {
-        var line = mod[sub];
-        keys[key + '.' + sub] = line;
-    }
+export function addModule(name: string, newText: any) {
+    text[name] = newText;
 }
 
 export function register() {
+    for (var key in text) {
+        var mod = text[key];
+        for (var sub in mod) {
+            var line = mod[sub];
+            keys[key + '.' + sub] = line;
+        }
+    }
+
     // A binding handler that set the text content with a format ({n} is replaced by the nth parameter)
     ko.bindingHandlers['locf'] = {
         update: (element: HTMLElement, valueAccessor: () => any[]) => {
