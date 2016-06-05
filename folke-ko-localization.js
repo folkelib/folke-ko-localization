@@ -1,5 +1,6 @@
 define(["require", "exports", "res/default", "knockout"], function (require, exports, default_1, ko) {
-    exports.text = default_1.default;
+    "use strict";
+    exports.text = default_1["default"];
     exports.keys = {};
     function addModule(name, newText) {
         exports.text[name] = newText;
