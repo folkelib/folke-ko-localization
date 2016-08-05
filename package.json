@@ -1,6 +1,6 @@
 {
   "name": "folke-ko-localization",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Allows localization of texts",
   "main": "dist/index.js",
   "scripts": {
