@@ -1,0 +1,6 @@
+{
+  "name": "folke-ko-localization",
+  "dependencies": {
+    "knockout": "registry:npm/knockout#3.4.0+20160516171930"
+  }
+}
