@@ -1,0 +1,23 @@
+{
+  "name": "folke-ko-localization",
+  "version": "1.0.2",
+  "description": "Allows localization of texts",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/folkelib/folke-ko-localization.git"
+  },
+  "author": "Sidoine De Wispelaere",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/folkelib/folke-ko-localization/issues"
+  },
+  "homepage": "https://github.com/folkelib/folke-ko-localization#readme",
+  "dependencies": {
+    "knockout": "^3.4.0"
+  }
+}

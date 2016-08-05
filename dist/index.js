@@ -1,48 +1,40 @@
-﻿import defaultLanguage from "res/default";
-import * as ko from "knockout";
-
-export var text = defaultLanguage;
-export var keys:{[key:string]:string} = {};
-
-export function addModule(name: string, newText: any) {
-    text[name] = newText;
-}
-
-export function register() {
+"use strict";
+var ko = require("knockout");
+exports.keys = {};
+function register(text) {
     for (var key in text) {
         var mod = text[key];
         for (var sub in mod) {
             var line = mod[sub];
-            keys[key + '.' + sub] = line;
+            exports.keys[key + '.' + sub] = line;
         }
     }
-
+    if (ko.bindingHandlers['locf'])
+        return;
     // A binding handler that set the text content with a format ({n} is replaced by the nth parameter)
     ko.bindingHandlers['locf'] = {
-        update: (element: HTMLElement, valueAccessor: () => any[]) => {
+        update: function (element, valueAccessor) {
             var parameters = valueAccessor();
-            var text = keys[parameters[0]];
+            var text = exports.keys[parameters[0]];
             for (var i = 1; i < parameters.length; i++) {
                 text = text.replace('{' + (i - 1) + '}', ko.unwrap(parameters[i]));
             }
             element.innerHTML = text;
         }
-    }
-
+    };
     // A binding handler to set attribute values
     ko.bindingHandlers['loca'] = {
-        update: (element: HTMLElement, valueAccessor: () => any) => {
+        update: function (element, valueAccessor) {
             var parameters = valueAccessor();
             for (var key in parameters) {
                 var value = parameters[key];
-                element.setAttribute(key, keys[value]);
+                element.setAttribute(key, exports.keys[value]);
             }
         }
     };
-
-    ko.bindingProvider.instance['preprocessNode'] = function (node: Node) {
+    ko.bindingProvider.instance['preprocessNode'] = function (node) {
         if (node.nodeType === node.ELEMENT_NODE) {
-            var element = <HTMLElement>node;
+            var element = node;
             for (var i = 0; i < element.attributes.length; i++) {
                 var attribute = element.attributes[i];
                 var value = attribute.value;
@@ -58,11 +50,9 @@ export function register() {
                 }
             }
         }
-
         if (node.nodeType === 3) {
-
             if (node.nodeValue && node.nodeValue.indexOf('{{nohtml|') !== -1) {
-                node.nodeValue = node.nodeValue.replace(/{{nohtml\|(.*?)}}/, (match, id) => keys[id] || id);
+                node.nodeValue = node.nodeValue.replace(/{{nohtml\|(.*?)}}/, function (match, id) { return exports.keys[id] || id; });
                 return [node];
             }
             else if (node.nodeValue && node.nodeValue.indexOf('{{') !== -1) {
@@ -77,12 +67,12 @@ export function register() {
                 }
                 else {
                     var newElement = document.createElement('span');
-                    newElement.innerHTML = node.nodeValue.replace(/{{(.*?)}}/, (match, id) => keys[id] || id);
+                    newElement.innerHTML = node.nodeValue.replace(/{{(.*?)}}/, function (match, id) { return exports.keys[id] || id; });
                     node.parentNode.replaceChild(newElement, node);
                     return [newElement];
                 }
             }
         }
-    }
-
+    };
 }
+exports.register = register;
