@@ -66,11 +66,14 @@ export function register(text: Dictionary<Dictionary<string>>) {
             else if (node.nodeValue && node.nodeValue.indexOf('{{') !== -1) {
                 if (node.nodeValue.indexOf(',') !== -1) {
                     const newElement = document.createElement('span');
-                    const value = node.nodeValue.match(/{{(.*?)}}/)[1];
-                    const parameters = value.split(',');
-                    parameters[0] = "'" + parameters[0] + "'";
-                    newElement.setAttribute('data-bind', 'locf: [' + parameters.join(',') + ']');
-                    node.parentNode.replaceChild(newElement, node);
+                    const matches = node.nodeValue.match(/{{(.*?)}}/);
+                    if (matches) {
+                        const value = matches[1];
+                        const parameters = value.split(',');
+                        parameters[0] = "'" + parameters[0] + "'";
+                        newElement.setAttribute('data-bind', 'locf: [' + parameters.join(',') + ']');
+                        node.parentNode.replaceChild(newElement, node);
+                    } 
                     return [newElement];
                 }
                 else {

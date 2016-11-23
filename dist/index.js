@@ -58,11 +58,14 @@ function register(text) {
             else if (node.nodeValue && node.nodeValue.indexOf('{{') !== -1) {
                 if (node.nodeValue.indexOf(',') !== -1) {
                     var newElement = document.createElement('span');
-                    var value = node.nodeValue.match(/{{(.*?)}}/)[1];
-                    var parameters = value.split(',');
-                    parameters[0] = "'" + parameters[0] + "'";
-                    newElement.setAttribute('data-bind', 'locf: [' + parameters.join(',') + ']');
-                    node.parentNode.replaceChild(newElement, node);
+                    var matches = node.nodeValue.match(/{{(.*?)}}/);
+                    if (matches) {
+                        var value = matches[1];
+                        var parameters = value.split(',');
+                        parameters[0] = "'" + parameters[0] + "'";
+                        newElement.setAttribute('data-bind', 'locf: [' + parameters.join(',') + ']');
+                        node.parentNode.replaceChild(newElement, node);
+                    }
                     return [newElement];
                 }
                 else {

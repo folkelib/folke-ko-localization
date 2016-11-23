@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/folkelib/folke-ko-localization#readme",
   "dependencies": {
-    "knockout": "^3.4.0"
+    "@types/knockout": "~3.4.37",
+    "knockout": "~3.4.0"
+  },
+  "devDependencies": {
+    "typescript": "~2.1"
   }
 }
