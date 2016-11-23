@@ -1,5 +1,11 @@
 ﻿import * as ko from "knockout";
 
+declare global {
+    interface KnockoutBindingProvider {
+        preprocessNode: (node:Node) => Node[] | undefined;
+    }
+}
+
 export type Dictionary<T> = {[key:string]:T};
 
 export var keys:Dictionary<string> = {};
